@@ -1,0 +1,16 @@
+{
+  "node_check_returncode": 0,
+  "node_stderr": "",
+  "duplicate_ids": [],
+  "missing_ids": [],
+  "auth_helper": true,
+  "auth_cancelamento": true,
+  "auth_devolucao": true,
+  "auth_fechar_caixa": true,
+  "auth_desconto_venda": true,
+  "auth_desconto_comanda": true,
+  "auth_excluir_produto": true,
+  "auth_excluir_funcionario": true,
+  "native_alert_present": false,
+  "native_confirm_present": false
+}

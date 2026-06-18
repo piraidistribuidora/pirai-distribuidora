@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Bar Piraí ERP</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<section id="login" class="login">
+  <div class="login-card">
+    <h1>🍺 Bar Piraí ERP</h1>
+    <p>Sistema online de gestão</p>
+    <label>Usuário</label>
+    <input id="loginUser" placeholder="Digite seu usuário" autocomplete="username">
+    <label>Senha</label>
+    <input id="loginPass" type="password" placeholder="Digite sua senha" autocomplete="current-password">
+    <button id="btnLogin" type="button" class="ok">Entrar</button>
+    <p id="loginErro" class="erro"></p>
+  </div>
+</section>
+
+<section id="app" class="app hidden">
+  <aside class="side">
+    <div class="brand"><h2>🍺 Bar Piraí</h2><span>ERP Online • Firebase</span></div>
+    <button data-page="dashboard">🏠 Dashboard</button>
+    <button data-page="vendas">💰 Venda Balcão</button>
+    <button data-page="mesas">🪑 Mesas</button>
+    <button data-page="estoque">📦 Estoque</button>
+    <button data-page="entradas">🚚 Entradas</button>
+    <button data-page="clientes">👥 Clientes</button>
+    <button data-page="fiados">💳 Fiados</button>
+    <button data-page="funcionarios">👨‍💼 Funcionários</button>
+    <button data-page="caixa">🧾 Caixa</button>
+    <button data-page="financeiro">💸 Financeiro</button>
+    <button data-page="cancelamentos">🚫 Cancelamentos</button><button data-page="devolucoes">↩️ Devoluções</button><button data-page="relatorios">📊 Relatórios</button>
+    <button data-page="auditoria">📝 Auditoria</button>
+    <button data-page="configuracoes">⚙️ Configurações</button>
+    <button id="logout" class="bad">🚪 Sair</button>
+  </aside>
+
+  <main class="main">
+    <div class="top">
+      <h1 id="pageTitle">Dashboard</h1>
+      <span class="user-pill" id="who"></span>
+    </div>
+
+    <div id="dashboard" class="page">
+      <div class="bar dashboard-filtros">
+        <select id="dashPeriodo">
+          <option value="diario">Diário</option>
+          <option value="semanal">Semanal</option>
+          <option value="mensal">Mensal</option>
+          <option value="3meses">Últimos 3 meses</option>
+          <option value="1ano">Último 1 ano</option>
+          <option value="todo">Todo o período</option>
+        </select>
+        <button id="atualizarDashboard" class="ghost">Atualizar dados</button>
+      </div>
+      <div class="cards">
+        <div class="card" data-detail="vendasHoje"><h3>💰 Vendas</h3><strong id="dashVendas">R$ 0,00</strong></div>
+        <div class="card" data-detail="pixHoje"><h3>📱 PIX</h3><strong id="dashPix">R$ 0,00</strong></div>
+        <div class="card" data-detail="dinheiroHoje"><h3>💵 Dinheiro</h3><strong id="dashDinheiro">R$ 0,00</strong></div>
+        <div class="card" data-detail="creditoHoje"><h3>💳 Crédito</h3><strong id="dashCredito">R$ 0,00</strong></div>
+        <div class="card" data-detail="debitoHoje"><h3>💳 Débito</h3><strong id="dashDebito">R$ 0,00</strong></div>
+        <div class="card" data-detail="fiadoHoje"><h3>💳 Fiado</h3><strong id="dashFiado">R$ 0,00</strong></div>
+        <div class="card" data-detail="mistoHoje"><h3>🔀 Misto</h3><strong id="dashMisto">R$ 0,00</strong></div>
+        <div class="card" data-detail="faturamentoMes"><h3>📈 Faturamento</h3><strong id="dashMes">R$ 0,00</strong></div>
+        <div class="card" data-detail="saldoFinanceiro"><h3>💸 Saldo Financeiro</h3><strong id="dashSaldo">R$ 0,00</strong></div>
+        <div class="card" data-detail="caixaAberto"><h3>🧾 Caixa Aberto</h3><strong id="dashCaixa">Não</strong></div><div class="card" data-detail="diferencaCaixa"><h3>⚖️ Diferença de Caixa</h3><strong id="dashDiferencaCaixa">R$ 0,00</strong></div>
+        <div class="card" data-detail="mesasOcupadas"><h3>🪑 Mesas Ocupadas</h3><strong id="dashMesas">0</strong></div>
+        <div class="card" data-detail="comandasAbertas"><h3>📋 Comandas Abertas</h3><strong id="dashComandas">0</strong></div>
+        <div class="card" data-detail="produtos"><h3>📦 Produtos</h3><strong id="dashProdutos">0</strong></div>
+        <div class="card" data-detail="estoqueBaixo"><h3>⚠ Estoque Baixo</h3><strong id="dashBaixo">0</strong></div>
+      </div>
+    </div>
+
+    <div id="vendas" class="page hidden">
+      <div class="split">
+        <div class="panel">
+          <h2>Adicionar produto</h2>
+          <input id="barcodeVenda" class="barcode-input" placeholder="Ler código de barras ou digitar código e Enter" autocomplete="off">
+          <select id="vProduto"></select>
+          <input id="vQtd" type="number" value="1" min="1" placeholder="Quantidade">
+          <select id="vTipo"><option value="UNIDADE">Unidade</option><option value="CAIXA">Caixa</option></select>
+          <button id="addVenda" class="ok">Adicionar ao carrinho</button>
+        </div>
+        <div class="panel">
+          <h2>Carrinho</h2>
+          <div id="cart"></div>
+          <div class="total" id="cartTotal">R$ 0,00</div>
+
+          <select id="pagamento">
+            <option value="PIX">PIX</option>
+            <option value="DINHEIRO">Dinheiro</option>
+            <option value="CREDITO">Cartão de Crédito</option>
+            <option value="DEBITO">Cartão de Débito</option>
+            <option value="FIADO">Fiado</option>
+            <option value="MISTO">Pagamento Misto</option>
+          </select>
+          <select id="bandeiraCartao" class="hidden">
+            <option value="">Bandeira do cartão</option>
+            <option>Visa</option><option>Mastercard</option><option>Elo</option><option>Hipercard</option><option>American Express</option><option>Outra</option>
+          </select>
+          <select id="clienteFiado" class="hidden"></select>
+          <input id="recebido" class="hidden" type="number" step="0.01" placeholder="Valor recebido em dinheiro">
+          <p id="troco"></p>
+
+          <div id="pagamentoMistoBox" class="mini hidden">
+            <h3>Pagamento misto</h3>
+            <input id="mistoPix" type="number" step="0.01" placeholder="Valor em PIX">
+            <input id="mistoDinheiro" type="number" step="0.01" placeholder="Valor em Dinheiro">
+            <input id="mistoCredito" type="number" step="0.01" placeholder="Valor no Crédito">
+            <input id="mistoDebito" type="number" step="0.01" placeholder="Valor no Débito">
+            <input id="mistoFiado" type="number" step="0.01" placeholder="Valor no Fiado">
+          </div>
+
+          <input id="descontoVenda" type="number" step="0.01" value="0" placeholder="Desconto no total da venda">
+          <button id="imprimirVendaPreview" class="ghost">Imprimir prévia</button>
+          <button id="finalizarVenda" class="ok">Finalizar venda</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mesas" class="page hidden">
+      <div class="bar"><button id="criarMesas" class="ok">Criar mesas sem duplicar</button><input id="qtdMesasCriar" type="number" value="12" min="1" max="100"></div>
+      <div id="mesasGrid" class="grid"></div>
+    </div>
+
+    <div id="estoque" class="page hidden">
+      <div class="bar"><button id="novoProduto" class="ok">+ Novo Produto</button></div>
+      <table><thead><tr><th>Produto</th><th>Código de Barras</th><th>Categoria</th><th>Estoque</th><th>Mínimo</th><th>Preço Unidade</th><th>Ações</th></tr></thead><tbody id="produtosList"></tbody></table>
+    </div>
+
+    <div id="entradas" class="page hidden">
+      <div class="panel">
+        <h2>🚚 Entrada de Mercadoria</h2>
+        <select id="entradaProduto"></select>
+        <input id="entradaCaixas" type="number" value="0" min="0" placeholder="Quantidade de caixas">
+        <input id="entradaUnidades" type="number" value="0" min="0" placeholder="Unidades avulsas">
+        <input id="entradaFornecedor" placeholder="Fornecedor">
+        <input id="entradaValor" type="number" step="0.01" placeholder="Valor da compra">
+        <textarea id="entradaObs" placeholder="Observações"></textarea>
+        <button id="registrarEntrada" class="ok">Registrar entrada</button>
+      </div>
+      <table><thead><tr><th>Produto</th><th>Tipo</th><th>Qtd</th><th>Usuário</th><th>Data</th></tr></thead><tbody id="movList"></tbody></table>
+    </div>
+
+    <div id="clientes" class="page hidden">
+      <div class="bar"><button id="novoCliente" class="ok">+ Novo Cliente</button></div>
+      <table><thead><tr><th>Nome</th><th>Telefone</th><th>CPF</th><th>Saldo/Ações</th></tr></thead><tbody id="clientesList"></tbody></table>
+    </div>
+
+    <div id="fiados" class="page hidden">
+      <table><thead><tr><th>Cliente</th><th>Telefone</th><th>Saldo</th><th>Ação</th></tr></thead><tbody id="fiadosList"></tbody></table>
+    </div>
+
+    <div id="funcionarios" class="page hidden">
+      <div class="bar"><button id="novoFuncionario" class="ok">+ Novo Funcionário</button></div>
+      <table><thead><tr><th>Nome</th><th>Usuário/Login</th><th>Cargo</th><th>Status/Ações</th></tr></thead><tbody id="funcList"></tbody></table>
+    </div>
+
+    <div id="caixa" class="page hidden">
+      <div class="cards">
+        <div class="card"><h3>Status do Caixa</h3><strong id="caixaStatus">Fechado</strong></div>
+        <div class="card"><h3>Valor Inicial</h3><strong id="caixaInicial">R$ 0,00</strong></div>
+        <div class="card"><h3>Entradas Dinheiro</h3><strong id="caixaEntradas">R$ 0,00</strong></div>
+        <div class="card"><h3>Sangrias/Saídas</h3><strong id="caixaSaidas">R$ 0,00</strong></div>
+        <div class="card"><h3>Saldo Esperado</h3><strong id="caixaSaldo">R$ 0,00</strong></div><div class="card"><h3>Diferença Contabilizada</h3><strong id="caixaDiferenca">R$ 0,00</strong></div>
+      </div>
+      <br>
+      <div class="panel">
+        <h2>Controle de Caixa</h2>
+        <input id="valorInicialCaixa" type="number" step="0.01" placeholder="Valor inicial para abrir caixa">
+        <div class="actions"><button id="abrirCaixa" class="ok">Abrir Caixa</button><button id="fecharCaixa" class="bad">Fechar Caixa</button><button id="limparCacheLocal" class="ghost">Sincronizar / Limpar cache</button></div>
+      </div>
+      <div class="bar">
+        <input id="caixaDataInicio" type="date" title="Data inicial do caixa">
+        <input id="caixaDataFim" type="date" title="Data final do caixa">
+        <button id="filtrarCaixa" class="ok">Filtrar Caixas</button>
+      </div>
+      <table><thead><tr><th>Status</th><th>Valor Inicial</th><th>Saldo Esperado</th><th>Valor Final</th><th>Diferença</th><th>Usuário</th><th>Data</th></tr></thead><tbody id="caixaList"></tbody></table>
+    </div>
+
+    <div id="financeiro" class="page hidden">
+      <div class="bar"><button id="novaEntrada" class="ok">+ Nova Entrada</button><button id="novaSaida" class="bad">- Nova Saída / Sangria</button></div>
+      <div class="cards">
+        <div class="card"><h3>PIX Recebido</h3><strong id="finPix">R$ 0,00</strong></div>
+        <div class="card"><h3>Dinheiro Recebido</h3><strong id="finDinheiro">R$ 0,00</strong></div>
+        <div class="card"><h3>Crédito Recebido</h3><strong id="finCredito">R$ 0,00</strong></div>
+        <div class="card"><h3>Débito Recebido</h3><strong id="finDebito">R$ 0,00</strong></div>
+        <div class="card"><h3>Entradas Extras</h3><strong id="finEntradas">R$ 0,00</strong></div>
+        <div class="card"><h3>Saídas / Sangrias</h3><strong id="finSaidas">R$ 0,00</strong></div>
+        <div class="card"><h3>Saldo Geral</h3><strong id="finSaldo">R$ 0,00</strong></div>
+      </div>
+      <br>
+      <table><thead><tr><th>Tipo</th><th>Categoria</th><th>Valor</th><th>Observação</th><th>Data</th></tr></thead><tbody id="financeiroList"></tbody></table>
+    </div>
+
+
+    <div id="cancelamentos" class="page hidden">
+      <div class="bar">
+        <input id="cancelBusca" placeholder="Buscar venda/comanda por cliente, forma, tipo ou data...">
+        <button id="buscarCancelamentos" class="ok">Buscar</button>
+      </div>
+      <table><thead><tr><th>Tipo</th><th>Pagamento</th><th>Valor</th><th>Status</th><th>Data</th><th>Ação</th></tr></thead><tbody id="cancelamentosList"></tbody></table>
+    </div>
+
+    <div id="devolucoes" class="page hidden">
+      <div class="panel">
+        <h2>Registrar Devolução ao Estoque</h2>
+        <select id="devProduto"></select>
+        <input id="devQtd" type="number" min="1" value="1" placeholder="Quantidade devolvida">
+        <input id="devMotivo" placeholder="Motivo da devolução">
+        <button id="registrarDevolucao" class="ok">Registrar Devolução</button>
+      </div>
+      <table><thead><tr><th>Produto</th><th>Quantidade</th><th>Motivo</th><th>Usuário</th><th>Data</th></tr></thead><tbody id="devolucoesList"></tbody></table>
+    </div>
+
+    <div id="relatorios" class="page hidden">
+      <div class="bar">
+        <select id="relTipo"><option value="vendas">Vendas</option><option value="produtos">Produtos mais vendidos</option><option value="estoque">Estoque</option><option value="clientes">Clientes</option><option value="fiados">Fiados</option><option value="lucro">Lucro estimado</option><option value="caixa">Caixa</option><option value="cancelamentos">Cancelamentos</option><option value="devolucoes">Devoluções</option></select>
+        <select id="relPeriodo"><option value="hoje">Hoje</option><option value="mes">Este mês</option><option value="todos">Todos</option><option value="personalizado">Calendário / Personalizado</option></select>
+        <input id="relDataInicio" type="date"><input id="relDataFim" type="date"><button id="gerarRelatorio" class="ok">Gerar</button>
+      </div>
+      <div class="cards">
+        <div class="card"><h3>Total</h3><strong id="relVendas">R$ 0,00</strong></div>
+        <div class="card"><h3>Quantidade</h3><strong id="relQtd">0</strong></div>
+        <div class="card"><h3>Ticket Médio</h3><strong id="relTicket">R$ 0,00</strong></div>
+        <div class="card"><h3>Fiado/Lucro</h3><strong id="relFiado">R$ 0,00</strong></div>
+      </div><br>
+      <table><thead><tr><th>Item</th><th>Info</th><th>Valor</th><th>Data/Obs</th></tr></thead><tbody id="relVendasList"></tbody></table>
+    </div>
+
+    <div id="auditoria" class="page hidden">
+      <div class="bar"><input id="audBusca" placeholder="Pesquisar na auditoria..."><input id="audDataInicio" type="date"><input id="audDataFim" type="date"><button id="filtrarAuditoria" class="ok">Filtrar</button></div>
+      <table><thead><tr><th>Ação</th><th>Detalhes</th><th>Usuário</th><th>Data</th></tr></thead><tbody id="auditoriaList"></tbody></table>
+    </div>
+
+    <div id="configuracoes" class="page hidden">
+      <div class="panel">
+        <h2>Configurações</h2>
+        <input id="cfgNome" placeholder="Nome da empresa">
+        <input id="cfgTelefone" placeholder="Telefone">
+        <input id="cfgWhatsapp" placeholder="WhatsApp">
+        <input id="cfgEndereco" placeholder="Endereço">
+        <input id="cfgMeta" type="number" placeholder="Meta mensal">
+        <button id="salvarConfig" class="ok">Salvar configurações</button>
+        <br><br>
+        <button id="aplicarCargosPadrao" class="ghost">Aplicar permissões padrão por cargo</button>
+        <p class="hint">Administrador: tudo • Gerente: gestão • Caixa: vendas/fiados/caixa • Garçom: mesas/comandas • Estoquista: estoque/entradas • Financeiro: caixa/financeiro/relatórios</p>
+      </div>
+    </div>
+  </main>
+</section>
+
+<div id="toast" class="toast hidden"></div>
+<div id="modal" class="modal"><div class="modal-card"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="actions"><button id="modalSave" class="ok">Salvar</button><button id="modalCancel" class="ghost">Cancelar</button></div></div></div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

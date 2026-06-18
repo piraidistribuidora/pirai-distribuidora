@@ -1,0 +1,9 @@
+{
+  "node_check_returncode": 0,
+  "stdout": "",
+  "stderr": "",
+  "cmd_bandeira_hidden": true,
+  "desconto_venda": true,
+  "desconto_comanda": true,
+  "print_function": true
+}

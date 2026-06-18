@@ -1,0 +1,11 @@
+{
+  "node_check_returncode": 0,
+  "node_stderr": "",
+  "duplicate_ids": [],
+  "missing_ids": [],
+  "login_try_catch": true,
+  "admin_fallback": true,
+  "start_try_catch": true,
+  "native_alert_present": false,
+  "native_confirm_present": false
+}

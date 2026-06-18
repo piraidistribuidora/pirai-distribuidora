@@ -1,0 +1,9 @@
+{
+  "node_check_returncode": 0,
+  "node_stderr": "",
+  "firebase_version_10_12_2": true,
+  "firebase_version_12_14_removed": true,
+  "button_type": true,
+  "global_error_debug": true,
+  "login_debug": true
+}

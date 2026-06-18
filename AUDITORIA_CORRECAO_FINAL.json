@@ -1,0 +1,12 @@
+{
+  "first_check_returncode": 0,
+  "first_check_stderr": "",
+  "fixed_logout_duplication": true,
+  "firebase_10_12_2": true,
+  "final_check_returncode": 0,
+  "final_check_stderr": "",
+  "duplicate_ids": [],
+  "missing_ids": [],
+  "native_alert_present": false,
+  "native_confirm_present": false
+}
